@@ -3,9 +3,9 @@ package com.universalis.blog.services.impl;
 import com.universalis.blog.domain.entities.Category;
 import com.universalis.blog.repositories.CategoryRepository;
 import com.universalis.blog.services.CategoryService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
