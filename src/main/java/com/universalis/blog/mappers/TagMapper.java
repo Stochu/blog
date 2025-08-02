@@ -1,7 +1,7 @@
 package com.universalis.blog.mappers;
 
 import com.universalis.blog.domain.PostStatus;
-import com.universalis.blog.domain.dtos.TagResponse;
+import com.universalis.blog.domain.dtos.TagDTO;
 import com.universalis.blog.domain.entities.Post;
 import com.universalis.blog.domain.entities.Tag;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ import java.util.Set;
 public interface TagMapper {
 
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    TagResponse toTagResponse(Tag tag);
+    TagDTO toDTO(Tag tag);
 
     @Named("calculatePostCount")
     default Integer calculatePostCount(Set<Post> posts) {

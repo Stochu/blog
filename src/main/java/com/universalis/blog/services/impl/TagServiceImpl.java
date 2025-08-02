@@ -3,6 +3,7 @@ package com.universalis.blog.services.impl;
 import com.universalis.blog.domain.entities.Tag;
 import com.universalis.blog.repositories.TagRepository;
 import com.universalis.blog.services.TagService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,12 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> getTags() {
         return tagRepository.findAllWithPostCount();
+    }
+
+    @Override
+    public Tag getTagById(UUID id) {
+        return tagRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found with id " + id));
     }
 
     @Transactional
