@@ -4,6 +4,7 @@ import com.universalis.blog.domain.PostStatus;
 import com.universalis.blog.domain.entities.Category;
 import com.universalis.blog.domain.entities.Post;
 import com.universalis.blog.domain.entities.Tag;
+import com.universalis.blog.domain.entities.User;
 import com.universalis.blog.repositories.PostRepository;
 import com.universalis.blog.services.CategoryService;
 import com.universalis.blog.services.PostService;
@@ -46,5 +47,10 @@ public class PostServiceImpl implements PostService {
         }
 
         return postRepository.findAllByStatus(PostStatus.PUBLISHED);
+    }
+
+    @Override
+    public List<Post> getDraftPosts(User user) {
+        return postRepository.findAllByAuthorAndStatus(user, PostStatus.DRAFT);
     }
 }
