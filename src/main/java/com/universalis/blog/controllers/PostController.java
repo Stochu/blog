@@ -1,13 +1,16 @@
 package com.universalis.blog.controllers;
 
 import com.universalis.blog.domain.CreatePostRequest;
+import com.universalis.blog.domain.UpdatePostRequest;
 import com.universalis.blog.domain.dtos.CreatePostRequestDTO;
 import com.universalis.blog.domain.dtos.PostDTO;
+import com.universalis.blog.domain.dtos.UpdatePostRequestDTO;
 import com.universalis.blog.domain.entities.Post;
 import com.universalis.blog.domain.entities.User;
 import com.universalis.blog.mappers.PostMapper;
 import com.universalis.blog.services.PostService;
 import com.universalis.blog.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +29,20 @@ public class PostController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPosts(
-            @RequestParam(required = false) UUID categoryId,
-            @RequestParam(required = false) UUID tagId) {
+    public ResponseEntity<List<PostDTO>> getAllPosts(@RequestParam(required = false) UUID categoryId,
+                                                     @RequestParam(required = false) UUID tagId) {
         List<Post> posts = postService.getAllPosts(categoryId, tagId);
         List<PostDTO> postDTOs = posts.stream()
                 .map(postMapper::toDTO)
                 .toList();
         return ResponseEntity.ok(postDTOs);
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<PostDTO> getPost(@PathVariable UUID id) {
+        Post post = postService.getPost(id);
+        PostDTO postDTO = postMapper.toDTO(post);
+        return ResponseEntity.ok(postDTO);
     }
 
     @GetMapping(path = "/drafts")
@@ -47,15 +56,27 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(
-            @RequestBody CreatePostRequestDTO createPostRequestDTO,
-            @RequestAttribute UUID userId) {
-
+    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody CreatePostRequestDTO createPostRequestDTO,
+                                              @RequestAttribute UUID userId) {
         User loggedInUser = userService.getUserById(userId);
         CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDTO);
         Post createdPost = postService.createPost(loggedInUser, createPostRequest);
         PostDTO createdPostDTO = postMapper.toDTO(createdPost);
-
         return new ResponseEntity<>(createdPostDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDTO> updatePost(@PathVariable UUID id,
+                                              @Valid @RequestBody UpdatePostRequestDTO updatePostRequestDTO) {
+        UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDTO);
+        Post updatedPost = postService.updatePost(id, updatePostRequest);
+        PostDTO updatedPostDTO = postMapper.toDTO(updatedPost);
+        return ResponseEntity.ok(updatedPostDTO);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable UUID id) {
+        postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -2,6 +2,7 @@ package com.universalis.blog.services.impl;
 
 import com.universalis.blog.domain.CreatePostRequest;
 import com.universalis.blog.domain.PostStatus;
+import com.universalis.blog.domain.UpdatePostRequest;
 import com.universalis.blog.domain.entities.Category;
 import com.universalis.blog.domain.entities.Post;
 import com.universalis.blog.domain.entities.Tag;
@@ -10,6 +11,7 @@ import com.universalis.blog.repositories.PostRepository;
 import com.universalis.blog.services.CategoryService;
 import com.universalis.blog.services.PostService;
 import com.universalis.blog.services.TagService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +59,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post getPost(UUID id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id"));
+    }
+
+    @Override
     public List<Post> getDraftPosts(User user) {
         return postRepository.findAllByAuthorAndStatus(user, PostStatus.DRAFT);
     }
@@ -77,6 +86,35 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(newPost);
 
+    }
+
+    @Override
+    @Transactional
+    public Post updatePost(UUID id, UpdatePostRequest updatePostRequest) {
+        Post existingPost = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post does not exist with id"));
+        existingPost.setTitle(updatePostRequest.getTitle());
+        existingPost.setContent(updatePostRequest.getContent());
+        existingPost.setStatus(updatePostRequest.getStatus());
+        existingPost.setReadingTime(calculateReadingTime(updatePostRequest.getContent()));
+        UUID categoryId = updatePostRequest.getCategoryId();
+        if (!existingPost.getCategory().getId().equals(categoryId)) {
+            Category newCategory = categoryService.getCategoryById(id);
+            existingPost.setCategory(newCategory);
+        }
+        Set<UUID> existingTags = existingPost.getTags().stream().map(Tag::getId).collect(Collectors.toSet());
+        Set<UUID> updatePostRequestTagIds = updatePostRequest.getTagIds();
+        if (!existingTags.equals(updatePostRequestTagIds)) {
+            List<Tag> newTags = tagService.getTagsByIds(updatePostRequestTagIds);
+            existingPost.setTags(new HashSet<>(newTags));
+        }
+        return postRepository.save(existingPost);
+    }
+
+    @Override
+    public void deletePost(UUID id) {
+        Post postToDelete = getPost(id);
+        postRepository.delete(postToDelete);
     }
 
     private Integer calculateReadingTime(String content) {

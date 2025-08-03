@@ -38,7 +38,7 @@ public class SecurityConfig {
                     .build();
             return userRepository.save(user);
         });
-        return new BlogUserDetailsService(userRepository);
+        return blogUserDetailsService;
     }
 
     @Bean
