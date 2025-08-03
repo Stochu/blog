@@ -1,5 +1,7 @@
 package com.universalis.blog.controllers;
 
+import com.universalis.blog.domain.CreatePostRequest;
+import com.universalis.blog.domain.dtos.CreatePostRequestDTO;
 import com.universalis.blog.domain.dtos.PostDTO;
 import com.universalis.blog.domain.entities.Post;
 import com.universalis.blog.domain.entities.User;
@@ -7,10 +9,10 @@ import com.universalis.blog.mappers.PostMapper;
 import com.universalis.blog.services.PostService;
 import com.universalis.blog.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,5 +44,18 @@ public class PostController {
                 .map(postMapper::toDTO)
                 .toList();
         return ResponseEntity.ok(draftPostsDTO);
+    }
+
+    @PostMapping
+    public ResponseEntity<PostDTO> createPost(
+            @RequestBody CreatePostRequestDTO createPostRequestDTO,
+            @RequestAttribute UUID userId) {
+
+        User loggedInUser = userService.getUserById(userId);
+        CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDTO);
+        Post createdPost = postService.createPost(loggedInUser, createPostRequest);
+        PostDTO createdPostDTO = postMapper.toDTO(createdPost);
+
+        return new ResponseEntity<>(createdPostDTO, HttpStatus.CREATED);
     }
 }
