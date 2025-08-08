@@ -21,7 +21,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
     private final RefreshTokenService refreshTokenService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
         AuthenticationResponse response = authenticationService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         return ResponseEntity.ok(response);
@@ -34,13 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(
-            @Valid @RequestBody LogoutRequest request,
-            Authentication authentication) {
-
+    public ResponseEntity<Void> logout(@Valid @RequestBody LogoutRequest request, Authentication authentication) {
         BlogUserDetails userDetails = (BlogUserDetails) authentication.getPrincipal();
         refreshTokenService.deleteByUserId(userDetails.getId());
-
         return ResponseEntity.ok().build();
     }
 
