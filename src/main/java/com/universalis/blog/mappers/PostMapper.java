@@ -6,6 +6,7 @@ import com.universalis.blog.domain.dtos.CreatePostRequestDTO;
 import com.universalis.blog.domain.dtos.PostDTO;
 import com.universalis.blog.domain.dtos.UpdatePostRequestDTO;
 import com.universalis.blog.domain.entities.Post;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -18,6 +19,6 @@ public interface PostMapper {
     @Mapping(target = "tags", source = "tags")
     PostDTO toDTO(Post post);
 
-    CreatePostRequest toCreatePostRequest(CreatePostRequestDTO dto);
-    UpdatePostRequest toUpdatePostRequest(UpdatePostRequestDTO dto);
+    CreatePostRequest toCreatePostRequest(@Valid CreatePostRequestDTO dto);
+    UpdatePostRequest toUpdatePostRequest(@Valid UpdatePostRequestDTO dto);
 }
