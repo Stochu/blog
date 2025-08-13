@@ -4,7 +4,7 @@ import com.universalis.blog.domain.user.entities.User;
 import com.universalis.blog.domain.user.repositories.UserRepository;
 import com.universalis.blog.security.BlogUserDetailsService;
 import com.universalis.blog.security.JwtAuthenticationFilter;
-import com.universalis.blog.domain.auth.services.AuthenticationService;
+import com.universalis.blog.domain.authentication.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

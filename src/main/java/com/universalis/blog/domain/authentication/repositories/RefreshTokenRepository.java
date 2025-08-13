@@ -1,6 +1,6 @@
-package com.universalis.blog.domain.auth.repositories;
+package com.universalis.blog.domain.authentication.repositories;
 
-import com.universalis.blog.domain.auth.entities.RefreshToken;
+import com.universalis.blog.domain.authentication.entities.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

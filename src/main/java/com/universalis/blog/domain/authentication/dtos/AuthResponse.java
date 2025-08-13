@@ -1,4 +1,4 @@
-package com.universalis.blog.domain.auth.dtos;
+package com.universalis.blog.domain.authentication.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

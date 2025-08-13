@@ -1,6 +1,6 @@
 package com.universalis.blog.security;
 
-import com.universalis.blog.domain.auth.services.AuthenticationService;
+import com.universalis.blog.domain.authentication.services.AuthenticationService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

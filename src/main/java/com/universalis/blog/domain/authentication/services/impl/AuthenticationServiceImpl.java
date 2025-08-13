@@ -1,12 +1,12 @@
-package com.universalis.blog.domain.auth.services.impl;
+package com.universalis.blog.domain.authentication.services.impl;
 
-import com.universalis.blog.domain.auth.dtos.AuthenticationResponse;
-import com.universalis.blog.domain.auth.entities.RefreshToken;
+import com.universalis.blog.domain.authentication.dtos.AuthenticationResponse;
+import com.universalis.blog.domain.authentication.entities.RefreshToken;
 import com.universalis.blog.exceptions.InvalidTokenException;
 import com.universalis.blog.exceptions.TokenExpiredException;
 import com.universalis.blog.exceptions.TokenRefreshException;
 import com.universalis.blog.security.BlogUserDetails;
-import com.universalis.blog.domain.auth.services.AuthenticationService;
+import com.universalis.blog.domain.authentication.services.AuthenticationService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

@@ -1,6 +1,6 @@
-package com.universalis.blog.domain.auth.services;
+package com.universalis.blog.domain.authentication.services;
 
-import com.universalis.blog.domain.auth.dtos.AuthenticationResponse;
+import com.universalis.blog.domain.authentication.dtos.AuthenticationResponse;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface AuthenticationService {

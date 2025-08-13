@@ -1,6 +1,5 @@
-package com.universalis.blog.domain.auth.dtos;
+package com.universalis.blog.domain.authentication.dtos;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TokenRefreshRequest {
-
-    @NotBlank(message = "Refresh token is required")
+public class AuthenticationResponse {
+    private String accessToken;
     private String refreshToken;
+    private String tokenType;
+    private long expiresIn;
 }

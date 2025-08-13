@@ -1,8 +1,8 @@
-package com.universalis.blog.domain.auth.services.impl;
+package com.universalis.blog.domain.authentication.services.impl;
 
-import com.universalis.blog.domain.auth.entities.RefreshToken;
+import com.universalis.blog.domain.authentication.entities.RefreshToken;
 import com.universalis.blog.exceptions.TokenRefreshException;
-import com.universalis.blog.domain.auth.repositories.RefreshTokenRepository;
+import com.universalis.blog.domain.authentication.repositories.RefreshTokenRepository;
 import com.universalis.blog.domain.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

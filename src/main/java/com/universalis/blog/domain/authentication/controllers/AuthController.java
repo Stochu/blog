@@ -1,12 +1,12 @@
-package com.universalis.blog.domain.auth.controllers;
+package com.universalis.blog.domain.authentication.controllers;
 
-import com.universalis.blog.domain.auth.dtos.AuthenticationResponse;
-import com.universalis.blog.domain.auth.dtos.LoginRequest;
-import com.universalis.blog.domain.auth.dtos.LogoutRequest;
-import com.universalis.blog.domain.auth.dtos.TokenRefreshRequest;
+import com.universalis.blog.domain.authentication.dtos.AuthenticationResponse;
+import com.universalis.blog.domain.authentication.dtos.LoginRequest;
+import com.universalis.blog.domain.authentication.dtos.LogoutRequest;
+import com.universalis.blog.domain.authentication.dtos.TokenRefreshRequest;
 import com.universalis.blog.security.BlogUserDetails;
-import com.universalis.blog.domain.auth.services.AuthenticationService;
-import com.universalis.blog.domain.auth.services.impl.RefreshTokenService;
+import com.universalis.blog.domain.authentication.services.AuthenticationService;
+import com.universalis.blog.domain.authentication.services.impl.RefreshTokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.universalis.blog.domain.auth.dtos;
+package com.universalis.blog.domain.authentication.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

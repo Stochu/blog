@@ -1,4 +1,4 @@
-package com.universalis.blog.domain.auth.entities;
+package com.universalis.blog.domain.authentication.entities;
 
 import com.universalis.blog.domain.user.entities.User;
 import jakarta.persistence.*;

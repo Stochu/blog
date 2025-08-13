@@ -1,6 +1,6 @@
 package com.universalis.blog.domain.post.dtos;
 
-import com.universalis.blog.domain.dtos.AuthorDTO;
+import com.universalis.blog.domain.user.dtos.AuthorDTO;
 import com.universalis.blog.domain.category.dtos.CategoryDTO;
 import com.universalis.blog.domain.tag.dtos.TagDTO;
 import com.universalis.blog.domain.post.entities.PostStatus;
