@@ -1,7 +1,7 @@
 package com.universalis.blog.config;
 
-import com.universalis.blog.domain.auth.entities.User;
-import com.universalis.blog.domain.auth.repositories.UserRepository;
+import com.universalis.blog.domain.user.entities.User;
+import com.universalis.blog.domain.user.repositories.UserRepository;
 import com.universalis.blog.security.BlogUserDetailsService;
 import com.universalis.blog.security.JwtAuthenticationFilter;
 import com.universalis.blog.domain.auth.services.AuthenticationService;

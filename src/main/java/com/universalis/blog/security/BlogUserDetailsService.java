@@ -1,7 +1,7 @@
 package com.universalis.blog.security;
 
-import com.universalis.blog.domain.auth.entities.User;
-import com.universalis.blog.domain.auth.repositories.UserRepository;
+import com.universalis.blog.domain.user.entities.User;
+import com.universalis.blog.domain.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

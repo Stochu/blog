@@ -3,7 +3,7 @@ package com.universalis.blog.domain.post.services;
 import com.universalis.blog.domain.post.dtos.CreatePostRequest;
 import com.universalis.blog.domain.post.dtos.UpdatePostRequest;
 import com.universalis.blog.domain.post.entities.Post;
-import com.universalis.blog.domain.auth.entities.User;
+import com.universalis.blog.domain.user.entities.User;
 
 import java.util.List;
 import java.util.UUID;

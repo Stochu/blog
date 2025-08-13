@@ -1,8 +1,8 @@
-package com.universalis.blog.domain.auth.services.impl;
+package com.universalis.blog.domain.user.services.impl;
 
-import com.universalis.blog.domain.auth.entities.User;
-import com.universalis.blog.domain.auth.repositories.UserRepository;
-import com.universalis.blog.domain.auth.services.UserService;
+import com.universalis.blog.domain.user.entities.User;
+import com.universalis.blog.domain.user.repositories.UserRepository;
+import com.universalis.blog.domain.user.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
 package com.universalis.blog.domain.auth.entities;
 
+import com.universalis.blog.domain.user.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

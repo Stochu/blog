@@ -4,7 +4,7 @@ import com.universalis.blog.domain.post.entities.PostStatus;
 import com.universalis.blog.domain.category.entities.Category;
 import com.universalis.blog.domain.post.entities.Post;
 import com.universalis.blog.domain.tag.entities.Tag;
-import com.universalis.blog.domain.auth.entities.User;
+import com.universalis.blog.domain.user.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -3,7 +3,7 @@ package com.universalis.blog.domain.auth.services.impl;
 import com.universalis.blog.domain.auth.entities.RefreshToken;
 import com.universalis.blog.exceptions.TokenRefreshException;
 import com.universalis.blog.domain.auth.repositories.RefreshTokenRepository;
-import com.universalis.blog.domain.auth.repositories.UserRepository;
+import com.universalis.blog.domain.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

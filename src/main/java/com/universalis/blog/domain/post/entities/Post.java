@@ -2,7 +2,7 @@ package com.universalis.blog.domain.post.entities;
 
 import com.universalis.blog.domain.category.entities.Category;
 import com.universalis.blog.domain.tag.entities.Tag;
-import com.universalis.blog.domain.auth.entities.User;
+import com.universalis.blog.domain.user.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 

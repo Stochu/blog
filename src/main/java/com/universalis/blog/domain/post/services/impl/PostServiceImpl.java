@@ -6,7 +6,7 @@ import com.universalis.blog.domain.post.dtos.UpdatePostRequest;
 import com.universalis.blog.domain.category.entities.Category;
 import com.universalis.blog.domain.post.entities.Post;
 import com.universalis.blog.domain.tag.entities.Tag;
-import com.universalis.blog.domain.auth.entities.User;
+import com.universalis.blog.domain.user.entities.User;
 import com.universalis.blog.domain.post.repositories.PostRepository;
 import com.universalis.blog.domain.category.services.CategoryService;
 import com.universalis.blog.domain.post.services.PostService;
