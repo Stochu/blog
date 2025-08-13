@@ -1,10 +1,10 @@
 package com.universalis.blog.config;
 
-import com.universalis.blog.domain.entities.User;
-import com.universalis.blog.repositories.UserRepository;
+import com.universalis.blog.domain.auth.entities.User;
+import com.universalis.blog.domain.auth.repositories.UserRepository;
 import com.universalis.blog.security.BlogUserDetailsService;
 import com.universalis.blog.security.JwtAuthenticationFilter;
-import com.universalis.blog.services.AuthenticationService;
+import com.universalis.blog.domain.auth.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +28,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-//     TODO use service instead of repository
-    private final UserRepository userRepository;
     private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean

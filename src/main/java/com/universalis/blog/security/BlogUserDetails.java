@@ -1,6 +1,6 @@
 package com.universalis.blog.security;
 
-import com.universalis.blog.domain.entities.User;
+import com.universalis.blog.domain.auth.entities.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
