@@ -2,6 +2,10 @@ package com.universalis.blog.domain.authentication.services.impl;
 
 import com.universalis.blog.domain.authentication.dtos.AuthenticationResponse;
 import com.universalis.blog.domain.authentication.entities.RefreshToken;
+import com.universalis.blog.domain.user.dtos.RegisterRequest;
+import com.universalis.blog.domain.user.dtos.UserDTO;
+import com.universalis.blog.domain.user.entities.User;
+import com.universalis.blog.domain.user.services.UserService;
 import com.universalis.blog.exceptions.InvalidTokenException;
 import com.universalis.blog.exceptions.TokenExpiredException;
 import com.universalis.blog.exceptions.TokenRefreshException;
@@ -32,6 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final RefreshTokenService refreshTokenService;
+    private final UserService userService;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -110,6 +115,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InvalidTokenException("Invalid JWT token");
         }
         return null;
+    }
+
+    @Override
+    public AuthenticationResponse registerAndAuthenticate(RegisterRequest registerRequest) {
+        UserDTO userDTO = userService.registerUser(registerRequest);
+        User user = userService.getUserById(userDTO.getId());
+        BlogUserDetails userDetails = new BlogUserDetails(user);
+        String accessToken = generateAccessToken(userDetails);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+        return AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
+                .tokenType("Bearer")
+                .expiresIn(accessTokenExpiration / 1000)
+                .build();
+
     }
 
     private Claims extractAllClaims(String token) {
