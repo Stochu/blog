@@ -13,6 +13,7 @@ import com.universalis.blog.domain.post.services.PostService;
 import com.universalis.blog.domain.tag.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

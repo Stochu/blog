@@ -1,5 +1,5 @@
 services:
-  # Our PostgreSQL database
+  # PostgreSQL database
   db:
     # Using the latest PostgreSQL image
     image: postgres:latest

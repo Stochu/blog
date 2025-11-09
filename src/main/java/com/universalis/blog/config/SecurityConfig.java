@@ -35,7 +35,6 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(authenticationService);
     }
 
-    // TODO add user registration
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         BlogUserDetailsService blogUserDetailsService = new BlogUserDetailsService(userRepository);

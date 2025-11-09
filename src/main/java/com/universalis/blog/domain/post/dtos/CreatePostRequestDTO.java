@@ -27,7 +27,7 @@ public class CreatePostRequestDTO {
     @Size(min = 10, max = 50000, message = "Content must be between {min} and {max} characters")
     private String content;
 
-    @NotBlank(message = "Category ID is required")
+    @NotNull(message = "Category ID is required")
     private UUID categoryId;
 
     @Builder.Default
