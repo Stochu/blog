@@ -1,7 +1,7 @@
 package com.universalis.blog.domain.authentication.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.universalis.blog.config.SecurityConfig;
+import com.universalis.blog.config.TestSecurityConfig;
 import com.universalis.blog.domain.authentication.dtos.AuthenticationResponse;
 import com.universalis.blog.domain.authentication.dtos.LoginRequest;
 import com.universalis.blog.domain.authentication.dtos.LogoutRequest;
@@ -29,14 +29,15 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
-@Import(SecurityConfig.class)
+@Import(TestSecurityConfig.class)
 class AuthControllerTest {
 
 
@@ -49,7 +50,6 @@ class AuthControllerTest {
     @MockitoBean
     private RefreshTokenService refreshTokenService;
 
-    // Mocks for SecurityConfig
     @MockitoBean
     private org.springframework.security.web.AuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
@@ -62,9 +62,19 @@ class AuthControllerTest {
     private LoginRequest loginRequest;
     private RegisterRequest registerRequest;
     private AuthenticationResponse authResponse;
+    private User testUser;
 
     @BeforeEach
     void setUp() {
+
+        testUser = User.builder()
+                .id(UUID.randomUUID())
+                .email("johny.bravo@example.com")
+                .password("qwertyui")
+                .name("Johny Bravo")
+                .posts(Collections.emptyList())
+                .createdAt(LocalDateTime.now())
+                .build();
 
         loginRequest = LoginRequest.builder()
                 .email("johny.bravo@example.com")
@@ -195,27 +205,31 @@ class AuthControllerTest {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshRequest)));
+
         // then
         result
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
+
     @Test
     void logout_WithAuthenticatedUser_ShouldReturnOk() throws Exception {
         // given
-        BlogUserDetails userDetails = new BlogUserDetails(new User(UUID.randomUUID(), "abc@example.com", "password12", "Johny",
-                Collections.emptyList(), LocalDateTime.now()));
         LogoutRequest logoutRequest = LogoutRequest.builder()
                 .refreshToken("refresh-token-to-invalidate")
                 .build();
         // when
         ResultActions result = mockMvc.perform(post("/api/v1/auth/logout")
                 .with(csrf())
+                .with(user(new BlogUserDetails(testUser)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(logoutRequest)));
         // then
         result
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        verify(refreshTokenService, times(1)).deleteByUserId(testUser.getId());
     }
+
 }

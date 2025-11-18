@@ -118,6 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    // TODO refactor to avoid duplicate code with authenticate method
     public AuthenticationResponse registerAndAuthenticate(RegisterRequest registerRequest) {
         UserDTO userDTO = userService.registerUser(registerRequest);
         User user = userService.getUserById(userDTO.getId());
