@@ -1,7 +1,7 @@
 package com.universalis.blog.domain.authentication.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.universalis.blog.config.TestSecurityConfig;
+import com.universalis.blog.config.SecurityConfig;
 import com.universalis.blog.domain.authentication.dtos.AuthenticationResponse;
 import com.universalis.blog.domain.authentication.dtos.LoginRequest;
 import com.universalis.blog.domain.authentication.dtos.LogoutRequest;
@@ -36,8 +36,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @WebMvcTest(AuthController.class)
-@Import(TestSecurityConfig.class)
+@Import(SecurityConfig.class)
 class AuthControllerTest {
 
 
@@ -66,7 +67,6 @@ class AuthControllerTest {
 
     @BeforeEach
     void setUp() {
-
         testUser = User.builder()
                 .id(UUID.randomUUID())
                 .email("johny.bravo@example.com")
@@ -174,10 +174,8 @@ class AuthControllerTest {
         TokenRefreshRequest refreshRequest = TokenRefreshRequest.builder()
                 .refreshToken("refresh-token")
                 .build();
-
         when(authenticationService.refreshToken(anyString()))
                 .thenReturn(authResponse);
-
         // when
         ResultActions result = mockMvc.perform(post("/api/v1/auth/refresh-token")
                 .with(csrf())
@@ -199,13 +197,11 @@ class AuthControllerTest {
         TokenRefreshRequest refreshRequest = TokenRefreshRequest.builder()
                 .refreshToken("")
                 .build();
-
         // when
         ResultActions result = mockMvc.perform(post("/api/v1/auth/refresh-token")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(refreshRequest)));
-
         // then
         result
                 .andDo(print())
@@ -228,7 +224,6 @@ class AuthControllerTest {
         result
                 .andDo(print())
                 .andExpect(status().isOk());
-
         verify(refreshTokenService, times(1)).deleteByUserId(testUser.getId());
     }
 
