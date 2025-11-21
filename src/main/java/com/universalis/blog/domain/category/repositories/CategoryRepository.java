@@ -11,8 +11,9 @@ import java.util.UUID;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
+    // This query fixes n + 1 problem. Solution: in one query all category posts are fetched.
     @Query("SELECT c FROM Category c LEFT JOIN FETCH c.posts")
-    List<Category> findAllWithPostCount();
+    List<Category> findAllWithPosts();
 
     boolean existsByNameIgnoreCase(String name);
 }

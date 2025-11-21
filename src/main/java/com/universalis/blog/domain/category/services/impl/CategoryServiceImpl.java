@@ -20,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> listCategories() {
-        return categoryRepository.findAllWithPostCount();
+        return categoryRepository.findAllWithPosts();
     }
 
     @Override
