@@ -1,6 +1,6 @@
 package com.universalis.blog.config.kafka;
 
-import com.universalis.blog.domain.post.events.PostCreatedMessage;
+import com.universalis.blog.messaging.PostCreatedMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.UUIDSerializer;
 import org.springframework.beans.factory.annotation.Value;

@@ -76,7 +76,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    @TransactionalEventListener()
     public Post createPost(User user, CreatePostRequest createPostRequest) {
         Post newPost = new Post();
         newPost.setTitle(createPostRequest.getTitle());

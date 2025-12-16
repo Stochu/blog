@@ -2,7 +2,7 @@ package com.universalis.blog.domain.post.mappers;
 
 import com.universalis.blog.domain.post.entities.Post;
 import com.universalis.blog.domain.post.events.PostCreatedEvent;
-import com.universalis.blog.domain.post.events.PostCreatedMessage;
+import com.universalis.blog.messaging.PostCreatedMessage;
 import com.universalis.blog.domain.user.entities.User;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;

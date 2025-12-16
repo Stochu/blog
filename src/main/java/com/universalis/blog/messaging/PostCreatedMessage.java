@@ -1,4 +1,4 @@
-package com.universalis.blog.domain.post.events;
+package com.universalis.blog.messaging;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
