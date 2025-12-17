@@ -43,7 +43,7 @@ import java.util.UUID;
 @Configuration
 public class KafkaConsumerConfig {
 
-    @Value("${Spring.kafka.boostrap-servers}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean

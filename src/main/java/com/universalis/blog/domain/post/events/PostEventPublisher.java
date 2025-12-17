@@ -43,7 +43,7 @@ import java.util.UUID;
 @Component
 public class PostEventPublisher {
 
-    private final static String NEW_POST_TOPIC = "new-posts";
+    private final static String NEW_POST_TOPIC = "post-created";
 
     KafkaTemplate<UUID, PostCreatedMessage> kafkaTemplate;
 
@@ -52,6 +52,6 @@ public class PostEventPublisher {
     }
 
     public void publishNewPost(PostCreatedMessage event) {
-
+        kafkaTemplate.send(NEW_POST_TOPIC, event.postId(), event);
     }
 }
