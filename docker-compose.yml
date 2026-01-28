@@ -14,11 +14,17 @@ services:
       - "8888:8080"
 
   kafka:
-    image: apache/kafka:latest
+    image: apache/kafka:4.1.1
     container_name: kafka
     ports:
       - "9092:9092"
     environment:
+      # Default RF=3 for 3 brokers, we have 1, so set to 1 - should be more kafka servers in production!!!
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # Same reason - must match RF above
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      # With RF=1, need min_isr=1 (both must match broker count)
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       # Unique ID of this Kafka node. In clusters, every node has a different ID.
       KAFKA_NODE_ID: 1
       # This Kafka node acts as: broker → stores & serves messages; controller → manages metadata (topics, partitions).
