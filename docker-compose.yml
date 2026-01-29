@@ -1,7 +1,5 @@
 services:
-  # PostgreSQL database
   db:
-    # Using the latest PostgreSQL image
     image: postgres:latest
     ports:
       - "5432:5432"
@@ -13,4 +11,38 @@ services:
     image: adminer:latest
     restart: always
     ports:
-      - 8888:8080
+      - "8888:8080"
+
+  kafka:
+    image: apache/kafka:4.1.1
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      # Default RF=3 for 3 brokers, we have 1, so set to 1 - should be more kafka servers in production!!!
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # Same reason - must match RF above
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      # With RF=1, need min_isr=1 (both must match broker count)
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      # Unique ID of this Kafka node. In clusters, every node has a different ID.
+      KAFKA_NODE_ID: 1
+      # This Kafka node acts as: broker → stores & serves messages; controller → manages metadata (topics, partitions).
+      KAFKA_PROCESS_ROLES: broker, controller
+      # PLAINTEXT:9092 → Client connections (Spring Boot, CLI); CONTROLLER:9093 → Internal Kafka metadata traffic.
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      # Points clients how to connect with kafka
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # Tells Kafka which listener is used for controller communication - must match with one of KAFKA_LISTENERS name.
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      # Listener name → security protocol - right now it has no security protocol.
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      # Defines who are the controllers. Format: nodeId@host:port.
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      #Kafka data logs - topics, partitions, offsets stored here.
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    # Maps Kafka data directory to Docker volume - It ensures Topics survive container restarts and that messages are not lost.
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+volumes:
+  kafka-data:

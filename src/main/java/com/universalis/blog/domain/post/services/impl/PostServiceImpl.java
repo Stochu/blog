@@ -5,6 +5,7 @@ import com.universalis.blog.domain.post.entities.PostStatus;
 import com.universalis.blog.domain.post.dtos.UpdatePostRequest;
 import com.universalis.blog.domain.category.entities.Category;
 import com.universalis.blog.domain.post.entities.Post;
+import com.universalis.blog.domain.post.mappers.PostEventMapper;
 import com.universalis.blog.domain.tag.entities.Tag;
 import com.universalis.blog.domain.user.entities.User;
 import com.universalis.blog.domain.post.repositories.PostRepository;
@@ -13,9 +14,10 @@ import com.universalis.blog.domain.post.services.PostService;
 import com.universalis.blog.domain.tag.services.TagService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +34,8 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final CategoryService categoryService;
     private final TagService tagService;
+    private final ApplicationEventPublisher eventPublisher;
+    private final PostEventMapper postEventMapper;
 
 
     @Override
@@ -84,9 +88,9 @@ public class PostServiceImpl implements PostService {
         Set<UUID> tagIds = createPostRequest.getTagIds();
         List<Tag> tags = tagService.getTagsByIds(tagIds);
         newPost.setTags(new HashSet<>(tags));
-
-        return postRepository.save(newPost);
-
+        Post savedPost = postRepository.save(newPost);
+        eventPublisher.publishEvent(postEventMapper.toPostCreatedEvent(savedPost));
+        return savedPost;
     }
 
     @Override
